@@ -18,8 +18,9 @@ struct ContentView: View {
                 ForEach(items) { item in
                     NavigationLink {
                       VStack {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                        Text(item.title)
+//                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+//                        Text(item.title)
+                        ItemView(item: item)
                       }
                     } label: {
                         Text(item.title)
@@ -42,6 +43,7 @@ struct ContentView: View {
                     }
                 }
             }
+          .navigationTitle("Do")
         } detail: {
             Text("Select an item")
         }
