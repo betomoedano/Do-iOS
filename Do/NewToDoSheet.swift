@@ -18,21 +18,45 @@ struct NewToDoSheet: View {
   @State private var priority: Priority = .none
   
     var body: some View {
-      Form {
-        TextField("Title", text: $title)
-        TextField("Description", text: $description)
-        DatePicker("Date", selection: $date)
-        Toggle("Repeats", isOn: $itRepeats)
-        
-        Picker(selection: $priority, label: Text("Priority")) {
-          Text("None").tag(Priority.none)
-          Text("Low").tag(Priority.low)
-          Text("Medium").tag(Priority.medium)
-          Text("High").tag(Priority.high)
+      NavigationStack {
+        Form {
+          TextField("Title", text: $title)
+          TextField("Description", text: $description, axis: .vertical)
+          DatePicker("Date", selection: $date)
+          Toggle("Repeats", isOn: $itRepeats)
+          
+          Picker(selection: $priority, label: Text("Priority")) {
+            Text("None").tag(Priority.none)
+            Text("Low").tag(Priority.low)
+            Text("Medium").tag(Priority.medium)
+            Text("High").tag(Priority.high)
+          }
+          .pickerStyle(.menu)
         }
-        .pickerStyle(.menu)
+        .navigationTitle("New Do")
+        .toolbar {
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Save") {
+              saveDo(item: Item(
+                title: title,
+                note: description,
+                date: date,
+                itRepeats: itRepeats,
+                priority: priority
+              ))
+            }
+            .disabled(title.isEmpty)
+          }
+        }
       }
     }
+  
+  private func saveDo(item: Item) {
+    withAnimation {
+      context.insert(item)
+      dismiss()
+    }
+  }
 }
 
 #Preview {

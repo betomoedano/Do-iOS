@@ -9,60 +9,68 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+  @Environment(\.modelContext) private var modelContext
+  @Query private var items: [Item]
+  @State private var showNewToDoSheet: Bool = false
 
-    var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                      VStack {
-//                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-//                        Text(item.title)
-                        ItemView(item: item)
-                      }
-                    } label: {
-                        Text(item.title)
+  var body: some View {
+      NavigationSplitView {
+          List {
+              ForEach(items) { item in
+                  NavigationLink {
+                    VStack {
+                      ItemView(item: item)
                     }
-                }
-                .onDelete(perform: deleteItems)
-            }
+                  } label: {
+                      Text(item.title)
+                  }
+              }
+              .onDelete(perform: deleteItems)
+          }
+          
 #if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
+          .navigationSplitViewColumnWidth(min: 180, ideal: 200)
 #endif
-            .toolbar {
+          .toolbar {
 #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
+              ToolbarItem(placement: .navigationBarTrailing) {
+                  EditButton()
+              }
 #endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-          .navigationTitle("Do")
-        } detail: {
-            Text("Select an item")
-        }
-    }
+              ToolbarItem {
+                  Button(action: showSheet) {
+                      Label("Add Item", systemImage: "plus")
+                  }
+              }
+          }
+        .navigationTitle("Do")
+      } detail: {
+          Text("Select an item")
+      }
+      .sheet(isPresented: $showNewToDoSheet) {
+          NewToDoSheet()
+          .presentationDetents([.medium, .large])
+      }
+  }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(title: "Hardcoded title")
-            modelContext.insert(newItem)
-        }
-    }
+  private func addItem() {
+      withAnimation {
+          let newItem = Item(title: "Hardcoded title")
+          modelContext.insert(newItem)
+      }
+  }
+  
+  private func showSheet() {
+    showNewToDoSheet.toggle()
+  }
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
+  private func deleteItems(offsets: IndexSet) {
+      withAnimation {
+          for index in offsets {
+              modelContext.delete(items[index])
+          }
+      }
+  }
 }
 
 #Preview {
