@@ -8,6 +8,14 @@
 import Foundation
 import SwiftData
 
+
+enum Priority: Codable {
+    case none
+    case low
+    case medium
+    case high
+}
+
 @Model
 final class Item {
   var title: String
@@ -32,11 +40,5 @@ final class Item {
     self.priority = priority
     self.timestamp = timestamp
   }
-  
-  enum Priority: Codable {
-      case none
-      case low
-      case medium
-      case high
-  }
 }
+

@@ -13,3 +13,7 @@ struct ItemView: View {
       Text(item.title)
     }
 }
+
+#Preview {
+  ItemView(item: Item.init(title: "hello"))
+}

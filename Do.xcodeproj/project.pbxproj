@@ -13,6 +13,7 @@
 		CACD98902B37BA3600374036 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CACD988F2B37BA3600374036 /* Assets.xcassets */; };
 		CACD98942B37BA3600374036 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CACD98932B37BA3600374036 /* Preview Assets.xcassets */; };
 		CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989B2B37E7EB00374036 /* ItemView.swift */; };
+		CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989F2B3A218800374036 /* NewToDoSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		CACD98932B37BA3600374036 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CACD98952B37BA3600374036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CACD989B2B37E7EB00374036 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		CACD989F2B3A218800374036 /* NewToDoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				CACD988B2B37BA3400374036 /* ContentView.swift */,
 				CACD989B2B37E7EB00374036 /* ItemView.swift */,
 				CACD988D2B37BA3400374036 /* Item.swift */,
+				CACD989F2B3A218800374036 /* NewToDoSheet.swift */,
 				CACD988F2B37BA3600374036 /* Assets.xcassets */,
 				CACD98912B37BA3600374036 /* Do.entitlements */,
 				CACD98952B37BA3600374036 /* Info.plist */,
@@ -149,6 +152,7 @@
 			files = (
 				CACD988C2B37BA3400374036 /* ContentView.swift in Sources */,
 				CACD988E2B37BA3400374036 /* Item.swift in Sources */,
+				CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */,
 				CACD988A2B37BA3400374036 /* DoApp.swift in Sources */,
 				CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */,
 			);
