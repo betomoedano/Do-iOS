@@ -17,13 +17,41 @@ struct NewToDoSheet: View {
   @State private var itRepeats: Bool = false
   @State private var priority: Priority = .none
   
+//  Local state
+  @State private var toggleDate: Bool = false
+  @State private var toggleTime: Bool = false
+  
     var body: some View {
       NavigationStack {
         Form {
-          TextField("Title", text: $title)
-          TextField("Description", text: $description, axis: .vertical)
-          DatePicker("Date", selection: $date)
-          Toggle("Repeats", isOn: $itRepeats)
+          Section {
+            TextField("Title", text: $title)
+            TextField("Description", text: $description, axis: .vertical)
+              .frame(height: 80, alignment: .top)
+          }
+          
+          Section {
+            Toggle("Date", systemImage: "calendar.badge.plus", isOn: $toggleDate)
+              .onChange(of: toggleDate) { oldValue, newValue in
+                withAnimation {
+                  toggleDate.toggle()
+                }
+              }
+              .onTapGesture {
+                toggleDate.toggle()
+              }
+            if toggleDate {
+                DatePicker(
+                  "Start Date",
+                  selection: $date,
+                  displayedComponents: [.date]
+                )
+                .transition(.slide)
+                .datePickerStyle(.graphical)
+            }
+            Toggle("Time", systemImage: "clock.fill", isOn: $itRepeats)
+            Toggle("Repeats", isOn: $itRepeats)
+          }
           
           Picker(selection: $priority, label: Text("Priority")) {
             Text("None").tag(Priority.none)

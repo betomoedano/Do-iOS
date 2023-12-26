@@ -17,7 +17,7 @@ struct ContentView: View {
   var body: some View {
       NavigationSplitView {
         List(items, selection: $multiSelection) {
-          Text($0.title)
+          ItemView(item: $0)
         }
         .navigationTitle("Do")
         .toolbar {
