@@ -12,38 +12,44 @@ struct ContentView: View {
   @Environment(\.modelContext) private var modelContext
   @Query private var items: [Item]
   @State private var showNewToDoSheet: Bool = false
+  @State private var multiSelection = Set<UUID>()
 
   var body: some View {
       NavigationSplitView {
-          List {
-              ForEach(items) { item in
-                  NavigationLink {
-                    VStack {
-                      ItemView(item: item)
-                    }
-                  } label: {
-                      Text(item.title)
-                  }
-              }
-              .onDelete(perform: deleteItems)
-          }
-          
-#if os(macOS)
-          .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-          .toolbar {
-#if os(iOS)
-              ToolbarItem(placement: .navigationBarTrailing) {
-                  EditButton()
-              }
-#endif
-              ToolbarItem {
-                  Button(action: showSheet) {
-                      Label("Add Item", systemImage: "plus")
-                  }
-              }
-          }
+        List(items, selection: $multiSelection) {
+          Text($0.title)
+        }
         .navigationTitle("Do")
+        .toolbar {
+          EditButton()
+          Button(action: showSheet) {
+            Label("Add Item", systemImage: "plus")
+          }
+        }
+        Text("\(multiSelection.count) selections")
+//          List {
+//              ForEach(items) { item in
+//                  NavigationLink {
+//                    VStack {
+//                      ItemView(item: item)
+//                    }
+//                  } label: {
+//                      Text(item.title)
+//                  }
+//              }
+//              .onDelete(perform: deleteItems)
+//          }
+          
+//          .toolbar {
+//              ToolbarItem(placement: .navigationBarTrailing) {
+//                  EditButton()
+//              }
+//              ToolbarItem {
+//                  Button(action: showSheet) {
+//                      Label("Add Item", systemImage: "plus")
+//                  }
+//              }
+//          }
       } detail: {
           Text("Select an item")
       }

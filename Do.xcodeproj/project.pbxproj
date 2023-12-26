@@ -14,6 +14,7 @@
 		CACD98942B37BA3600374036 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CACD98932B37BA3600374036 /* Preview Assets.xcassets */; };
 		CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989B2B37E7EB00374036 /* ItemView.swift */; };
 		CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989F2B3A218800374036 /* NewToDoSheet.swift */; };
+		CACD98A22B3A5FC300374036 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD98A12B3A5FC300374036 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		CACD98952B37BA3600374036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CACD989B2B37E7EB00374036 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		CACD989F2B3A218800374036 /* NewToDoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoSheet.swift; sourceTree = "<group>"; };
+		CACD98A12B3A5FC300374036 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		CACD98882B37BA3400374036 /* Do */ = {
 			isa = PBXGroup;
 			children = (
+				CACD98A12B3A5FC300374036 /* HomeView.swift */,
 				CACD98892B37BA3400374036 /* DoApp.swift */,
 				CACD988B2B37BA3400374036 /* ContentView.swift */,
 				CACD989B2B37E7EB00374036 /* ItemView.swift */,
@@ -153,6 +156,7 @@
 				CACD988C2B37BA3400374036 /* ContentView.swift in Sources */,
 				CACD988E2B37BA3400374036 /* Item.swift in Sources */,
 				CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */,
+				CACD98A22B3A5FC300374036 /* HomeView.swift in Sources */,
 				CACD988A2B37BA3400374036 /* DoApp.swift in Sources */,
 				CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */,
 			);
