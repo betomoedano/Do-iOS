@@ -16,22 +16,6 @@ enum Priority: Codable {
     case high
 }
 
-@Model
-final class ListOfItems: Identifiable, Hashable {
-  var id = UUID()
-  var title: String
-  var about: String
-  var emoji: String?
-  var items: [Item]?
-  
-  init(id: UUID = UUID(), title: String, about: String, emoji: String? = nil, items: [Item]) {
-    self.id = id
-    self.title = title
-    self.about = about
-    self.emoji = emoji
-    self.items = items
-  }
-}
 
 @Model
 final class Item: Identifiable, Hashable {

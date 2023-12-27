@@ -26,30 +26,40 @@ struct NewToDoSheet: View {
         Form {
           Section {
             TextField("Title", text: $title)
+              .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                  Button("Save") {
+                    print("Pressed!")
+                  }
+                }
+              }
             TextField("Description", text: $description, axis: .vertical)
               .frame(height: 80, alignment: .top)
           }
           
           Section {
+            Image(systemName:"calendar")
+              .imageScale(.medium)
+              .background(in: RoundedRectangle(cornerRadius: 20).inset(by: -5))
+              .backgroundStyle(.blue.gradient)
+              .foregroundStyle(
+                .white.shadow(.drop(radius: 1, y: 1.5))
+              )
             Toggle("Date", systemImage: "calendar.badge.plus", isOn: $toggleDate)
-              .onChange(of: toggleDate) { oldValue, newValue in
-                withAnimation {
-                  toggleDate.toggle()
-                }
-              }
-              .onTapGesture {
-                toggleDate.toggle()
-              }
-            if toggleDate {
+            DatePicker(
+              "Date",
+              selection: $date,
+              displayedComponents: .date
+            )
+            Toggle("Time", systemImage: "clock.fill", isOn: $toggleTime)
+            if toggleTime {
                 DatePicker(
-                  "Start Date",
+                  "",
                   selection: $date,
-                  displayedComponents: [.date]
+                  displayedComponents: [.hourAndMinute]
                 )
-                .transition(.slide)
-                .datePickerStyle(.graphical)
+                .datePickerStyle(.wheel)
             }
-            Toggle("Time", systemImage: "clock.fill", isOn: $itRepeats)
             Toggle("Repeats", isOn: $itRepeats)
           }
           
