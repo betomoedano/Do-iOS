@@ -12,60 +12,58 @@ struct ContentView: View {
   @Environment(\.modelContext) private var modelContext
   @Query private var items: [Item]
   @State private var showNewToDoSheet: Bool = false
-  @State private var multiSelection = Set<UUID>()
 
   var body: some View {
-      NavigationSplitView {
-        List(items, selection: $multiSelection) {
-          Text($0.title)
+    NavigationSplitView {
+      List {
+        ForEach(items) { item in
+          ItemRow(item: item)
+            .swipeActions {
+              Button(role: .destructive) {
+                modelContext.delete(item)
+              } label: {
+                  Label("Delete", systemImage: "trash")
+              }
+            }
+            .swipeActions(edge: .leading) {
+              Button() {
+                modelContext.delete(item)
+              } label: {
+                  Label("Complete", systemImage: "checkmark.circle")
+              }
+              .tint(.green)
+              Button() {
+                modelContext.delete(item)
+              } label: {
+                  Label("In Progress", systemImage: "hourglass.circle.fill")
+              }
+              .tint(.blue)
+              Button() {
+                modelContext.delete(item)
+              } label: {
+                  Label("On Hold", systemImage: "pause.circle")
+              }
+              .tint(.orange)
+            }
         }
-        .navigationTitle("Do")
-        .toolbar {
-          EditButton()
+        .onDelete(perform: deleteItems)
+        .listRowSeparator(.hidden)
+      }
+      .toolbar {
+        ToolbarItem {
           Button(action: showSheet) {
             Label("Add Item", systemImage: "plus")
           }
         }
-        Text("\(multiSelection.count) selections")
-//          List {
-//              ForEach(items) { item in
-//                  NavigationLink {
-//                    VStack {
-//                      ItemView(item: item)
-//                    }
-//                  } label: {
-//                      Text(item.title)
-//                  }
-//              }
-//              .onDelete(perform: deleteItems)
-//          }
-          
-//          .toolbar {
-//              ToolbarItem(placement: .navigationBarTrailing) {
-//                  EditButton()
-//              }
-//              ToolbarItem {
-//                  Button(action: showSheet) {
-//                      Label("Add Item", systemImage: "plus")
-//                  }
-//              }
-//          }
-      } detail: {
-          Text("Select an item")
       }
-      .sheet(isPresented: $showNewToDoSheet) {
-          NewToDoSheet()
-          .presentationDetents([.medium, .large])
-      }
+    } detail: {
+      Text("Select an item")
+    }
+    .sheet(isPresented: $showNewToDoSheet) {
+      NewToDoSheet()
+    }
   }
 
-  private func addItem() {
-      withAnimation {
-          let newItem = Item(title: "Hardcoded title")
-          modelContext.insert(newItem)
-      }
-  }
-  
   private func showSheet() {
     showNewToDoSheet.toggle()
   }
@@ -73,7 +71,7 @@ struct ContentView: View {
   private func deleteItems(offsets: IndexSet) {
       withAnimation {
           for index in offsets {
-              modelContext.delete(items[index])
+            modelContext.delete(items[index])
           }
       }
   }

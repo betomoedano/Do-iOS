@@ -15,7 +15,6 @@ struct ItemView: View {
           Text(note)
         }
         Text(item.date, style: .date)
-        Text(item.itRepeats ? "Repeats" : "One time")
         Text("Priority \(String(describing: item.priority))")
         .navigationTitle(item.title)
       }

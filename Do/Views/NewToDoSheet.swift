@@ -11,67 +11,80 @@ struct NewToDoSheet: View {
   @Environment(\.modelContext) private var context
   @Environment(\.dismiss) private var dismiss
   
-  @State private var title: String = ""
+  @State private var title: String = "dommy"
   @State private var description: String = ""
   @State private var date: Date = Date.now
-  @State private var itRepeats: Bool = false
   @State private var priority: Priority = .none
+  @State private var tag: Tag = .none
+  @State private var status: Status = .notStarted
   
+  @FocusState private var isTitleFieldFocused: Bool
+  @FocusState private var isDescriptionFieldFocused: Bool
 //  Local state
-  @State private var toggleDate: Bool = false
-  @State private var toggleTime: Bool = false
   
     var body: some View {
       NavigationStack {
         Form {
           Section {
             TextField("Title", text: $title)
+              .focused($isTitleFieldFocused)
+              .listRowSeparator(.hidden)
+              .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                  self.isTitleFieldFocused = true
+                }
+              }
               .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
-                  Button("Save") {
-                    print("Pressed!")
+                  if isTitleFieldFocused {
+                    Button("", systemImage: "chevron.down") {
+                      isDescriptionFieldFocused = true
+                    }
+                  } else {
+                    Button("", systemImage: "chevron.up") {
+                      isTitleFieldFocused = true
+                    }
+                  }
+                  Spacer()
+                  Button("", systemImage: "keyboard.chevron.compact.down") {
+                    isDescriptionFieldFocused = false
+                    isTitleFieldFocused = false
                   }
                 }
               }
             TextField("Description", text: $description, axis: .vertical)
+              .focused($isDescriptionFieldFocused)
               .frame(height: 80, alignment: .top)
           }
           
-          Section {
-            Image(systemName:"calendar")
-              .imageScale(.medium)
-              .background(in: RoundedRectangle(cornerRadius: 20).inset(by: -5))
-              .backgroundStyle(.blue.gradient)
-              .foregroundStyle(
-                .white.shadow(.drop(radius: 1, y: 1.5))
-              )
-            Toggle("Date", systemImage: "calendar.badge.plus", isOn: $toggleDate)
-            DatePicker(
-              "Date",
-              selection: $date,
-              displayedComponents: .date
-            )
-            Toggle("Time", systemImage: "clock.fill", isOn: $toggleTime)
-            if toggleTime {
-                DatePicker(
-                  "",
-                  selection: $date,
-                  displayedComponents: [.hourAndMinute]
-                )
-                .datePickerStyle(.wheel)
-            }
-            Toggle("Repeats", isOn: $itRepeats)
-          }
+          
+          DatePicker("Date", selection: $date)
+            .listRowSeparator(.hidden)
           
           Picker(selection: $priority, label: Text("Priority")) {
-            Text("None").tag(Priority.none)
-            Text("Low").tag(Priority.low)
-            Text("Medium").tag(Priority.medium)
-            Text("High").tag(Priority.high)
+            ForEach(Priority.allCases, id: \.self) { priority in
+              Text(priority.rawValue.capitalized).tag(priority)
+            }
           }
-          .pickerStyle(.menu)
+            .listRowSeparator(.hidden)
+          
+          Picker(selection: $status, label: Text("Status")) {
+            ForEach(Status.allCases, id: \.self) { status in
+              Text(status.rawValue).tag(status)
+            }
+          }
+          
+          Section {
+            Picker(selection: $tag, label: Text("Category")) {
+              ForEach(Tag.allCases, id: \.self) { tag in
+                Text(tag.rawValue).tag(tag)
+              }
+            }
+          } footer: {
+            Text("Set a category to easily sort tasks")
+          }
         }
-        .navigationTitle("New Do")
+        .navigationTitle("New Task")
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
             Button("Save") {
@@ -79,7 +92,6 @@ struct NewToDoSheet: View {
                 title: title,
                 note: description,
                 date: date,
-                itRepeats: itRepeats,
                 priority: priority
               ))
             }
