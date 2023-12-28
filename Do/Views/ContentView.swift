@@ -20,30 +20,44 @@ struct ContentView: View {
           ItemRow(item: item)
             .swipeActions {
               Button(role: .destructive) {
-                modelContext.delete(item)
+                withAnimation {
+                  modelContext.delete(item)
+                }
               } label: {
                   Label("Delete", systemImage: "trash")
               }
             }
             .swipeActions(edge: .leading) {
               Button() {
-                modelContext.delete(item)
+                if (item.status == .completed) {
+                  item.status = Status.notStarted
+                } else {
+                  item.status = Status.completed
+                }
               } label: {
+                if (item.status == .completed) {
+                  Label("Not Started", systemImage: "xmark.circle")
+                } else {
                   Label("Complete", systemImage: "checkmark.circle")
+                  .tint(.green)
+                }
               }
-              .tint(.green)
-              Button() {
-                modelContext.delete(item)
-              } label: {
-                  Label("In Progress", systemImage: "hourglass.circle.fill")
+              if (item.status != .inProgress) {
+                Button() {
+                  item.status = Status.inProgress
+                } label: {
+                    Label("In Progress", systemImage: "hourglass.circle.fill")
+                }
+                .tint(.blue)
               }
-              .tint(.blue)
-              Button() {
-                modelContext.delete(item)
-              } label: {
+              if (item.status != .onHold) {
+                Button() {
+                  item.status = Status.onHold
+                } label: {
                   Label("On Hold", systemImage: "pause.circle")
+                }
+                .tint(.orange)
               }
-              .tint(.orange)
             }
         }
         .onDelete(perform: deleteItems)
