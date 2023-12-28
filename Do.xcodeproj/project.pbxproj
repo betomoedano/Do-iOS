@@ -17,6 +17,10 @@
 		CA72B4D42B3B83120021BA4E /* DoWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CA72B4C02B3B83100021BA4E /* DoWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CA72B4DC2B3B9D6F0021BA4E /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4DB2B3B9D6F0021BA4E /* ItemList.swift */; };
 		CA72B4DE2B3CF7980021BA4E /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4DD2B3CF7980021BA4E /* ItemRow.swift */; };
+		CA72B4E02B3DF2860021BA4E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4DF2B3DF2860021BA4E /* Launch Screen.storyboard */; };
+		CA72B4E42B3DF8960021BA4E /* AppIconDark.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4E32B3DF8960021BA4E /* AppIconDark.png */; };
+		CA72B4E62B3DF8B70021BA4E /* AppIconLight.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4E52B3DF8B70021BA4E /* AppIconLight.png */; };
+		CA72B4EA2B3DF9E00021BA4E /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4E92B3DF9E00021BA4E /* Logo.png */; };
 		CACD988A2B37BA3400374036 /* DoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD98892B37BA3400374036 /* DoApp.swift */; };
 		CACD988C2B37BA3400374036 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD988B2B37BA3400374036 /* ContentView.swift */; };
 		CACD988E2B37BA3400374036 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD988D2B37BA3400374036 /* Item.swift */; };
@@ -63,6 +67,10 @@
 		CA72B4D12B3B83120021BA4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA72B4DB2B3B9D6F0021BA4E /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		CA72B4DD2B3CF7980021BA4E /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
+		CA72B4DF2B3DF2860021BA4E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		CA72B4E32B3DF8960021BA4E /* AppIconDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconDark.png; sourceTree = "<group>"; };
+		CA72B4E52B3DF8B70021BA4E /* AppIconLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconLight.png; sourceTree = "<group>"; };
+		CA72B4E92B3DF9E00021BA4E /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Logo.png; path = ../../../../../Desktop/Logo.png; sourceTree = "<group>"; };
 		CACD98862B37BA3400374036 /* Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Do.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACD98892B37BA3400374036 /* DoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoApp.swift; sourceTree = "<group>"; };
 		CACD988B2B37BA3400374036 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +147,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		CA72B4E12B3DF87F0021BA4E /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				CA72B4E22B3DF8870021BA4E /* Images */,
+			);
+			path = Files;
+			sourceTree = "<group>";
+		};
+		CA72B4E22B3DF8870021BA4E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CA72B4E92B3DF9E00021BA4E /* Logo.png */,
+				CA72B4E32B3DF8960021BA4E /* AppIconDark.png */,
+				CA72B4E52B3DF8B70021BA4E /* AppIconLight.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		CACD987D2B37BA3400374036 = {
 			isa = PBXGroup;
 			children = (
@@ -161,10 +187,12 @@
 		CACD98882B37BA3400374036 /* Do */ = {
 			isa = PBXGroup;
 			children = (
+				CA72B4E12B3DF87F0021BA4E /* Files */,
 				CACD98892B37BA3400374036 /* DoApp.swift */,
 				CA72B4D92B3B9CEC0021BA4E /* Models */,
 				CA72B4DA2B3B9D0B0021BA4E /* Views */,
 				CACD988F2B37BA3600374036 /* Assets.xcassets */,
+				CA72B4DF2B3DF2860021BA4E /* Launch Screen.storyboard */,
 				CACD98912B37BA3600374036 /* Do.entitlements */,
 				CACD98952B37BA3600374036 /* Info.plist */,
 				CACD98922B37BA3600374036 /* Preview Content */,
@@ -269,6 +297,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA72B4EA2B3DF9E00021BA4E /* Logo.png in Resources */,
+				CA72B4E42B3DF8960021BA4E /* AppIconDark.png in Resources */,
+				CA72B4E62B3DF8B70021BA4E /* AppIconLight.png in Resources */,
+				CA72B4E02B3DF2860021BA4E /* Launch Screen.storyboard in Resources */,
 				CACD98942B37BA3600374036 /* Preview Assets.xcassets in Resources */,
 				CACD98902B37BA3600374036 /* Assets.xcassets in Resources */,
 			);
@@ -508,6 +540,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -548,6 +581,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

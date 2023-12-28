@@ -64,12 +64,46 @@ struct ContentView: View {
         .listRowSeparator(.hidden)
       }
       .toolbar {
-        ToolbarItem {
+        ToolbarItemGroup {
+          Menu {
+            Menu {
+              Button {
+              } label: {
+                Label("Creation date", systemImage: "calendar")
+              }
+              Button {
+              } label: {
+                Label("Due date", systemImage: "calendar.badge.clock")
+              }
+              Button {
+              } label: {
+                Label("Alphabetically", systemImage: "textformat.abc")
+              }
+              Button {
+              } label: {
+                Label("Priority", systemImage: "exclamationmark.2")
+              }
+              Button {
+              } label: {
+                Label("Status", systemImage: "checkmark.shield")
+              }
+              Button {
+              } label: {
+                Label("Tag", systemImage: "tag.fill")
+              }
+            } label: {
+                Label("Sort by", systemImage: "line.3.horizontal.decrease")
+            }
+          } label: {
+            Label("Tools", systemImage: "slider.horizontal.3")
+          }
           Button(action: showSheet) {
             Label("Add Item", systemImage: "plus")
           }
         }
       }
+      .toolbarRole(.editor)
+      .navigationTitle("Do")
     } detail: {
       Text("Select an item")
     }

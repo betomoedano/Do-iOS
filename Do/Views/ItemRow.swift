@@ -9,37 +9,52 @@ import SwiftUI
 
 struct ItemRow: View {
   var item: Item
-  @State private var showDetails: Bool = false
+  @State private var showDetails: Bool = true
 
   var body: some View {
-    
-    DisclosureGroup(
-      content: { 
-        VStack {
-          Text(item.date.description)
-          Text(item.note ?? "")
-          Text(item.priority.rawValue)
-          Text(item.timestamp.description)
-        }
-        .transition(.move(edge: .bottom))
-      },
-      label: {
-        HStack {
-          statusCircle
-          VStack(alignment: .leading) {
-            Text(item.title)
-            ControlGroup {
-                Text(item.status.rawValue)
-//                Text(item.date.formatted(date: .abbreviated, time: .shortened))
-            }
+    Button {
+      withAnimation {
+        showDetails.toggle()
+      }
+    } label: {
+      HStack {
+        statusCircle
+        VStack(alignment: .leading) {
+          Text(item.title)
+          Text(item.status.rawValue)
             .font(.caption2)
             .foregroundColor(.secondary)
-            
-          }
         }
+        Spacer()
+        Image(systemName: getImageNameForPriority(priority: item.priority))
+          .foregroundColor(.secondary)
       }
-    )
-    .buttonStyle(PlainButtonStyle()).accentColor(.clear).disabled(true)
+    }
+    .foregroundColor(.primary)
+    .contextMenu(ContextMenu(menuItems: {
+      Button {
+                 // Add this item to a list of favorites.
+             } label: {
+                 Label("Add to Favorites", systemImage: "heart")
+             }
+             Button {
+                 // Open Maps and center it on this item.
+             } label: {
+                 Label("Show in Maps", systemImage: "mappin")
+             }
+    }))
+    
+    if showDetails {
+      VStack(alignment: .leading) {
+        if let note = item.note, !note.isEmpty {
+          Text(note)
+        }
+        Text("Due Date \(item.date.formatted(date: .abbreviated, time: .shortened))")
+        Text("Created on \(item.timestamp.formatted(date: .abbreviated, time: .shortened))")
+          .font(.caption2)
+          .foregroundColor(.secondary)
+      }
+    }
   }
   
   private var statusCircle: some View {
@@ -60,6 +75,19 @@ struct ItemRow: View {
           return .orange
       }
   }
+  
+  private func getImageNameForPriority(priority: Priority) -> String {
+    switch priority {
+      case .high:
+        return "exclamationmark.3"
+      case .medium:
+        return "exclamationmark.2"
+      case .low:
+        return "exclamationmark"
+      case .none:
+        return ""
+    }
+  }
 }
 
 #Preview {
@@ -67,7 +95,6 @@ struct ItemRow: View {
     ItemRow(
       item: Item.init(
         title: "Camping Trip",
-        note: "This is a description for a camping trip ficticious trip that does not exists",
         status: Status.completed,
         tag: Tag.hobby,
         date: Date.now,
@@ -82,7 +109,7 @@ struct ItemRow: View {
         status: Status.completed,
         tag: Tag.hobby,
         date: Date.now,
-        priority: Priority.high,
+        priority: Priority.medium,
         timestamp: Date.distantFuture
       )
     )
@@ -93,7 +120,7 @@ struct ItemRow: View {
         status: Status.completed,
         tag: Tag.hobby,
         date: Date.now,
-        priority: Priority.high,
+        priority: Priority.low,
         timestamp: Date.distantFuture
       )
     )
@@ -104,7 +131,7 @@ struct ItemRow: View {
         status: Status.completed,
         tag: Tag.hobby,
         date: Date.now,
-        priority: Priority.high,
+        priority: Priority.none,
         timestamp: Date.distantFuture
       )
     )
