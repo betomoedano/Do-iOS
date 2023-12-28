@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemRow: View {
   var item: Item
-  @State private var showDetails: Bool = true
+  @State private var showDetails: Bool = false
 
   var body: some View {
     Button {
