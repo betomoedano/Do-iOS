@@ -106,6 +106,9 @@ struct ContentView: View {
       .navigationTitle("Do")
     } detail: {
       Text("Select an item")
+      Button(action: showSheet) {
+        Label("Add Item", systemImage: "plus")
+      }
     }
     .sheet(isPresented: $showNewToDoSheet) {
       NewToDoSheet()

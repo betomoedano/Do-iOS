@@ -86,6 +86,7 @@ struct NewToDoSheet: View {
         }
         .navigationTitle("New Task")
         .toolbar {
+          #if os(iOS)
           ToolbarItem(placement: .navigationBarTrailing) {
             Button("Save") {
               saveDo(item: Item(
@@ -97,6 +98,7 @@ struct NewToDoSheet: View {
             }
             .disabled(title.isEmpty)
           }
+          #endif
         }
       }
     }
