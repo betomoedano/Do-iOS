@@ -31,25 +31,17 @@ struct ItemRow: View {
       }
     }
     .foregroundColor(.primary)
-    .contextMenu(ContextMenu(menuItems: {
-      Button {
-                 // Add this item to a list of favorites.
-             } label: {
-                 Label("Add to Favorites", systemImage: "heart")
-             }
-             Button {
-                 // Open Maps and center it on this item.
-             } label: {
-                 Label("Show in Maps", systemImage: "mappin")
-             }
-    }))
-    
     if showDetails {
       VStack(alignment: .leading) {
         if let note = item.note, !note.isEmpty {
           Text(note)
+            .font(.footnote)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0))
         }
-        Text("Due Date \(item.date.formatted(date: .abbreviated, time: .shortened))")
+        Text("Due Date on \(item.date.formatted(date: .abbreviated, time: .shortened))")
+          .font(.caption2)
+          .foregroundColor(.secondary)
+          .fontWeight(.bold)
         Text("Created on \(item.timestamp.formatted(date: .abbreviated, time: .shortened))")
           .font(.caption2)
           .foregroundColor(.secondary)

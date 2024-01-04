@@ -27,6 +27,48 @@ struct ContentView: View {
                   Label("Delete", systemImage: "trash")
               }
             }
+            .contextMenu(ContextMenu(menuItems: {
+              Button {
+              } label: {
+                Label("Add to Favorites", systemImage: "heart")
+              }
+              Button {
+                item.status = Status.completed
+              } label: {
+                Label("Complete", systemImage: "checkmark.circle")
+              }
+              Button {
+                item.status = Status.notStarted
+              } label: {
+                Label("Not Started", systemImage: "xmark.circle")
+              }
+              Button {
+                item.status = Status.inProgress
+              } label: {
+                Label("In Progress", systemImage: "hourglass")
+              }
+              Button {
+                item.status = Status.onHold
+              } label: {
+                Label("On Hold", systemImage: "pause.circle")
+              }
+              Button {
+              } label: {
+                Label("Edit", systemImage: "pencil")
+              }
+              Button {
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = item.title
+                } label: {
+                Label("Copy Title", systemImage: "doc.on.doc")
+              }
+              Button {
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = item.note
+                } label: {
+                Label("Copy Description", systemImage: "doc.on.doc")
+              }
+            }))
             .swipeActions(edge: .leading) {
               Button() {
                 if (item.status == .completed) {
@@ -103,9 +145,10 @@ struct ContentView: View {
         }
       }
       .toolbarRole(.editor)
-      .navigationTitle("Do")
+      .navigationTitle("Today")
     } detail: {
       Text("Select an item")
+              
       Button(action: showSheet) {
         Label("Add Item", systemImage: "plus")
       }
