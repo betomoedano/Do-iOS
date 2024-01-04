@@ -77,7 +77,7 @@ struct NewToDoSheet: View {
           Section {
             Picker(selection: $tag, label: Text("Category")) {
               ForEach(Tag.allCases, id: \.self) { tag in
-                Text(tag.rawValue).tag(tag)
+                Text(tag.rawValue.capitalized).tag(tag)
               }
             }
           } footer: {
@@ -89,9 +89,11 @@ struct NewToDoSheet: View {
           #if os(iOS)
           ToolbarItem(placement: .navigationBarTrailing) {
             Button("Save") {
-              saveDo(item: Item(
+              saveDo(Item(
                 title: title,
                 note: description,
+                status: status,
+                tag: tag,
                 date: date,
                 priority: priority
               ))
@@ -103,7 +105,7 @@ struct NewToDoSheet: View {
       }
     }
   
-  private func saveDo(item: Item) {
+  private func saveDo(_ item: Item) {
     withAnimation {
       context.insert(item)
       dismiss()
