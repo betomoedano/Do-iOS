@@ -6,172 +6,91 @@
 //
 
 import SwiftUI
-import SwiftData
+
 
 struct ContentView: View {
-  @Environment(\.modelContext) private var modelContext
-  @Query private var items: [Item]
+  
+  @State private var sortOrder = SortDescriptor(\Item.date)
   @State private var showNewToDoSheet: Bool = false
-
+  
   var body: some View {
     NavigationSplitView {
-      List {
-        ForEach(items) { item in
-          ItemRow(item: item)
-            .swipeActions {
-              Button(role: .destructive) {
-                withAnimation {
-                  modelContext.delete(item)
-                }
-              } label: {
-                  Label("Delete", systemImage: "trash")
-              }
-            }
-            .contextMenu(ContextMenu(menuItems: {
-              Button {
-              } label: {
-                Label("Add to Favorites", systemImage: "heart")
-              }
-              Button {
-                item.status = Status.completed
-              } label: {
-                Label("Complete", systemImage: "checkmark.circle")
-              }
-              Button {
-                item.status = Status.notStarted
-              } label: {
-                Label("Not Started", systemImage: "xmark.circle")
-              }
-              Button {
-                item.status = Status.inProgress
-              } label: {
-                Label("In Progress", systemImage: "hourglass")
-              }
-              Button {
-                item.status = Status.onHold
-              } label: {
-                Label("On Hold", systemImage: "pause.circle")
-              }
-              Button {
-              } label: {
-                Label("Edit", systemImage: "pencil")
-              }
-              Button {
-                let pasteboard = UIPasteboard.general
-                pasteboard.string = item.title
-                } label: {
-                Label("Copy Title", systemImage: "doc.on.doc")
-              }
-              Button {
-                let pasteboard = UIPasteboard.general
-                pasteboard.string = item.note
-                } label: {
-                Label("Copy Description", systemImage: "doc.on.doc")
-              }
-            }))
-            .swipeActions(edge: .leading) {
-              Button() {
-                if (item.status == .completed) {
-                  item.status = Status.notStarted
-                } else {
-                  item.status = Status.completed
-                }
-              } label: {
-                if (item.status == .completed) {
-                  Label("Not Started", systemImage: "xmark.circle")
-                } else {
-                  Label("Complete", systemImage: "checkmark.circle")
-                  .tint(.green)
-                }
-              }
-              if (item.status != .inProgress) {
-                Button() {
-                  item.status = Status.inProgress
-                } label: {
-                    Label("In Progress", systemImage: "hourglass.circle.fill")
-                }
-                .tint(.blue)
-              }
-              if (item.status != .onHold) {
-                Button() {
-                  item.status = Status.onHold
-                } label: {
-                  Label("On Hold", systemImage: "pause.circle")
-                }
-                .tint(.orange)
-              }
-            }
-        }
-        .onDelete(perform: deleteItems)
-        .listRowSeparator(.hidden)
-      }
-      .toolbar {
-        ToolbarItemGroup {
-          Menu {
+      ItemListView(sort: sortOrder, order: sortOrder == SortDescriptor(\Item.date) ? "DESC" : "ASC")
+        .toolbar {
+          ToolbarItemGroup {
             Menu {
-              Button {
+              Menu {
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.timestamp)
+                  }
+                } label: {
+                  Label("Creation date", systemImage: "calendar")
+                }
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.date)
+                  }
+                } label: {
+                  Label("Due date", systemImage: "calendar.badge.clock")
+                }
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.title)
+                  }
+                } label: {
+                  Label("Alphabetically", systemImage: "textformat.abc")
+                }
+//                Button {
+//                  withAnimation {
+//                    sortOrder = SortDescriptor(\Item.priority.id)
+//                  }
+//                } label: {
+//                  Label("Priority", systemImage: "exclamationmark.2")
+//                }
+//                Button {
+//                  withAnimation {
+//                    sortOrder = SortDescriptor(\Item.status.id)
+//                  }
+//                } label: {
+//                  Label("Status", systemImage: "checkmark.shield")
+//                }
+//                Button {
+//                  withAnimation {
+//                    sortOrder = SortDescriptor(\Item.tag.id)
+//                  }
+//                } label: {
+//                  Label("Tag", systemImage: "tag.fill")
+//                }
               } label: {
-                Label("Creation date", systemImage: "calendar")
-              }
-              Button {
-              } label: {
-                Label("Due date", systemImage: "calendar.badge.clock")
-              }
-              Button {
-              } label: {
-                Label("Alphabetically", systemImage: "textformat.abc")
-              }
-              Button {
-              } label: {
-                Label("Priority", systemImage: "exclamationmark.2")
-              }
-              Button {
-              } label: {
-                Label("Status", systemImage: "checkmark.shield")
-              }
-              Button {
-              } label: {
-                Label("Tag", systemImage: "tag.fill")
+                Label("Sort by", systemImage: "line.3.horizontal.decrease")
               }
             } label: {
-                Label("Sort by", systemImage: "line.3.horizontal.decrease")
+              Label("Tools", systemImage: "slider.horizontal.3")
             }
-          } label: {
-            Label("Tools", systemImage: "slider.horizontal.3")
-          }
-          Button(action: showSheet) {
-            Label("Add Item", systemImage: "plus")
+            Button {
+              showNewToDoSheet.toggle()
+            } label:{
+              Label("Add Item", systemImage: "plus")
+            }
           }
         }
-      }
-      .toolbarRole(.editor)
-      .navigationTitle("Today")
+        .toolbarRole(.editor)
+        .navigationTitle("Today")
     } detail: {
       Text("Select an item")
-              
-      Button(action: showSheet) {
+      Button {
+        showNewToDoSheet.toggle()
+      }label: {
         Label("Add Item", systemImage: "plus")
-      }
-    }
+      }    }
     .sheet(isPresented: $showNewToDoSheet) {
       NewToDoSheet()
     }
   }
-
-  private func showSheet() {
-    showNewToDoSheet.toggle()
-  }
-
-  private func deleteItems(offsets: IndexSet) {
-      withAnimation {
-          for index in offsets {
-            modelContext.delete(items[index])
-          }
-      }
-  }
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+  ContentView()
+    .modelContainer(for: Item.self, inMemory: true)
 }

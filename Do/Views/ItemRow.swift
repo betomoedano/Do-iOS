@@ -20,14 +20,24 @@ struct ItemRow: View {
       HStack {
         statusCircle
         VStack(alignment: .leading) {
+        Text("Due Date on \(item.date.formatted(date: .abbreviated, time: .shortened))")
+            .font(.caption2)
+        Text("Created on \(item.timestamp.formatted(date: .abbreviated, time: .shortened))")
+            .font(.caption2)
           Text(item.title)
           Text(item.status.rawValue)
             .font(.caption2)
             .foregroundColor(.secondary)
         }
         Spacer()
-        Image(systemName: getImageNameForPriority(priority: item.priority))
-          .foregroundColor(.secondary)
+        VStack(alignment: .trailing, content: {
+          Text(item.priority == .none ? "" : getPriorityAndColor(item.priority)?.0 ?? "")
+            .foregroundColor(getPriorityAndColor(item.priority)?.1 ?? Color.clear)
+            .font(.footnote)
+          Text(item.date.formatted(date: .omitted, time: .shortened))
+            .font(.caption2)
+            .foregroundColor(.secondary)
+        })
       }
     }
     .foregroundColor(.primary)
@@ -46,6 +56,19 @@ struct ItemRow: View {
           .font(.caption2)
           .foregroundColor(.secondary)
       }
+    }
+  }
+  
+  private func getPriorityAndColor(_ priority: Priority) -> (String, Color)? {
+    switch priority {
+      case .none:
+        return nil
+      case .low:
+        return ("!", Color.yellow)
+      case .medium:
+        return ("!!", Color.orange)
+      case .high:
+        return ("!!!", Color.red)
     }
   }
   
