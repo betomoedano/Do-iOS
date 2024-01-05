@@ -20,10 +20,6 @@ struct ItemRow: View {
       HStack {
         statusCircle
         VStack(alignment: .leading) {
-        Text("Due Date on \(item.date.formatted(date: .abbreviated, time: .shortened))")
-            .font(.caption2)
-        Text("Created on \(item.timestamp.formatted(date: .abbreviated, time: .shortened))")
-            .font(.caption2)
           Text(item.title)
           Text(item.status.rawValue)
             .font(.caption2)
@@ -34,7 +30,7 @@ struct ItemRow: View {
           Text(item.priority == .none ? "" : getPriorityAndColor(item.priority)?.0 ?? "")
             .foregroundColor(getPriorityAndColor(item.priority)?.1 ?? Color.clear)
             .font(.footnote)
-          Text(item.date.formatted(date: .omitted, time: .shortened))
+          Text(item.date.formatted(date: item.period != Period.today ? .long : .omitted, time: .shortened))
             .font(.caption2)
             .foregroundColor(.secondary)
         })

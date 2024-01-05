@@ -28,93 +28,102 @@ struct ItemListView: View {
   
   var body: some View {
     List {
-      ForEach(order == "ASC" ? items : items.reversed()) { item in
-        ItemRow(item: item)
-          .swipeActions {
-            Button(role: .destructive) {
-              withAnimation {
-                modelContext.delete(item)
-              }
-            } label: {
-              Label("Delete", systemImage: "trash")
+      ForEach(Period.allCases) { period in
+        Section(content: {
+          ForEach(order == "ASC" ? items : items.reversed()) { item in
+            if item.period == period {
+              ItemRow(item: item)
+                .swipeActions {
+                  Button(role: .destructive) {
+                    withAnimation {
+                      modelContext.delete(item)
+                    }
+                  } label: {
+                    Label("Delete", systemImage: "trash")
+                  }
+                }
+                .contextMenu(ContextMenu(menuItems: {
+                  Button {
+                  } label: {
+                    Label("Add to Favorites", systemImage: "heart")
+                  }
+                  Button {
+                    item.status = Status.completed
+                  } label: {
+                    Label("Complete", systemImage: "checkmark.circle")
+                  }
+                  Button {
+                    item.status = Status.notStarted
+                  } label: {
+                    Label("Not Started", systemImage: "xmark.circle")
+                  }
+                  Button {
+                    item.status = Status.inProgress
+                  } label: {
+                    Label("In Progress", systemImage: "hourglass")
+                  }
+                  Button {
+                    item.status = Status.onHold
+                  } label: {
+                    Label("On Hold", systemImage: "pause.circle")
+                  }
+                  Button {
+                  } label: {
+                    Label("Edit", systemImage: "pencil")
+                  }
+                  Button {
+                    let pasteboard = UIPasteboard.general
+                    pasteboard.string = item.title
+                  } label: {
+                    Label("Copy Title", systemImage: "doc.on.doc")
+                  }
+                  Button {
+                    let pasteboard = UIPasteboard.general
+                    pasteboard.string = item.note
+                  } label: {
+                    Label("Copy Description", systemImage: "doc.on.doc")
+                  }
+                }))
+                .swipeActions(edge: .leading) {
+                  Button() {
+                    if (item.status == .completed) {
+                      item.status = Status.notStarted
+                    } else {
+                      item.status = Status.completed
+                    }
+                  } label: {
+                    if (item.status == .completed) {
+                      Label("Not Started", systemImage: "xmark.circle")
+                    } else {
+                      Label("Complete", systemImage: "checkmark.circle")
+                        .tint(.green)
+                    }
+                  }
+                  if (item.status != .inProgress) {
+                    Button() {
+                      item.status = Status.inProgress
+                    } label: {
+                      Label("In Progress", systemImage: "hourglass.circle.fill")
+                    }
+                    .tint(.blue)
+                  }
+                  if (item.status != .onHold) {
+                    Button() {
+                      item.status = Status.onHold
+                    } label: {
+                      Label("On Hold", systemImage: "pause.circle")
+                    }
+                    .tint(.orange)
+                  }
+                }
             }
           }
-          .contextMenu(ContextMenu(menuItems: {
-            Button {
-            } label: {
-              Label("Add to Favorites", systemImage: "heart")
-            }
-            Button {
-              item.status = Status.completed
-            } label: {
-              Label("Complete", systemImage: "checkmark.circle")
-            }
-            Button {
-              item.status = Status.notStarted
-            } label: {
-              Label("Not Started", systemImage: "xmark.circle")
-            }
-            Button {
-              item.status = Status.inProgress
-            } label: {
-              Label("In Progress", systemImage: "hourglass")
-            }
-            Button {
-              item.status = Status.onHold
-            } label: {
-              Label("On Hold", systemImage: "pause.circle")
-            }
-            Button {
-            } label: {
-              Label("Edit", systemImage: "pencil")
-            }
-            Button {
-              let pasteboard = UIPasteboard.general
-              pasteboard.string = item.title
-            } label: {
-              Label("Copy Title", systemImage: "doc.on.doc")
-            }
-            Button {
-              let pasteboard = UIPasteboard.general
-              pasteboard.string = item.note
-            } label: {
-              Label("Copy Description", systemImage: "doc.on.doc")
-            }
-          }))
-          .swipeActions(edge: .leading) {
-            Button() {
-              if (item.status == .completed) {
-                item.status = Status.notStarted
-              } else {
-                item.status = Status.completed
-              }
-            } label: {
-              if (item.status == .completed) {
-                Label("Not Started", systemImage: "xmark.circle")
-              } else {
-                Label("Complete", systemImage: "checkmark.circle")
-                  .tint(.green)
-              }
-            }
-            if (item.status != .inProgress) {
-              Button() {
-                item.status = Status.inProgress
-              } label: {
-                Label("In Progress", systemImage: "hourglass.circle.fill")
-              }
-              .tint(.blue)
-            }
-            if (item.status != .onHold) {
-              Button() {
-                item.status = Status.onHold
-              } label: {
-                Label("On Hold", systemImage: "pause.circle")
-              }
-              .tint(.orange)
-            }
-          }
+          .onDelete(perform: deleteItems)
+          .listRowSeparator(.hidden)
+        }, header: {
+          Text(period.name.lowercased() == "today" ? "TODAY " + Date.now.formatted(date: .long, time: .omitted) : period.name)
+
+        })
       }
-      .onDelete(perform: deleteItems)
-      .listRowSeparator(.hidden)
     }
   }}

@@ -75,8 +75,7 @@ struct ContentView: View {
             }
           }
         }
-        .toolbarRole(.editor)
-        .navigationTitle("Today")
+//        .navigationTitle("Today")
     } detail: {
       Text("Select an item")
       Button {
