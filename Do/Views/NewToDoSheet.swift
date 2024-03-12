@@ -11,7 +11,7 @@ struct NewToDoSheet: View {
   @Environment(\.modelContext) private var context
   @Environment(\.dismiss) private var dismiss
   
-  @State private var title: String = "dommy"
+  @State private var title: String = ""
   @State private var description: String = ""
   @State private var date: Date = Date.now
   @State private var priority: Priority = .none

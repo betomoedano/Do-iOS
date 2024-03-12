@@ -75,7 +75,7 @@ struct ContentView: View {
             }
           }
         }
-//        .navigationTitle("Today")
+//        .navigationTitle("Do")
     } detail: {
       Text("Select an item")
       Button {
