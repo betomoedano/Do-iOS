@@ -40,7 +40,7 @@ enum Status: String, Codable, CaseIterable {
   var id: String { self.rawValue }
 }
 
-enum Period: String, CaseIterable, Identifiable {
+enum Period: String, CaseIterable, Identifiable, Codable {
     case today = "Today"
     case nextSevenDays = "Next 7 Days"
     case nextThirtyDays = "Next 30 Days"
