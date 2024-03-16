@@ -17,28 +17,31 @@ struct Provider: AppIntentTimelineProvider {
 
   @MainActor
   func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-    SimpleEntry(date: Date(), configuration: configuration, items: getItems())
+    
+    return SimpleEntry(date: Date(), configuration: configuration, items: generateDemoData())
   }
     
   @MainActor
   func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-      var entries: [SimpleEntry] = []
-      
-      // Determine the start and end time for entry generation
-      let currentDate = Date()
-      let endTime = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)! // For example, create entries for the next 1 minute
-      
-      // Generate entries every 5 seconds within the determined timeframe
-      var nextDate = currentDate
-      while nextDate <= endTime {
-          let entry = SimpleEntry(date: nextDate, configuration: configuration, items: getItems())
-          entries.append(entry)
-          nextDate = Calendar.current.date(byAdding: .second, value: 1, to: nextDate)!
-      }
-      
-      // Set the refresh policy
-      let refreshDate = Calendar.current.date(byAdding: .second, value: 10, to: entries.last!.date)!
-      return Timeline(entries: entries, policy: .after(refreshDate))
+    
+    var entries: [SimpleEntry] = []
+    
+    // Determine the start and end time for entry generation
+    let currentDate = Date()
+    let endTime = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)! // For example, create entries for the next 1 minute
+    
+    // Generate entries every 5 seconds within the determined timeframe
+    var nextDate = currentDate
+    while nextDate <= endTime {
+      let entry = SimpleEntry(date: nextDate, configuration: configuration, items: getItems())
+      entries.append(entry)
+      nextDate = Calendar.current.date(byAdding: .second, value: 10, to: nextDate)!
+    }
+    
+    // Set the refresh policy
+    let refreshDate = Calendar.current.date(byAdding: .minute, value: 1, to: Date())!
+    print(refreshDate, "refreshed!")
+    return Timeline(entries: entries, policy: .after(refreshDate))
   }
 
   
@@ -65,16 +68,16 @@ struct mainWidgetEntryView : View {
   var entry: Provider.Entry
   
   var body: some View {
-    VStack {
-      Text("Today")
-      Text(formatDate(entry.date))
-      
-      ForEach(entry.items) { item in
-        Text(item.title)
+      VStack {
+        Text("Today")
+        Text(formatDate(entry.date))
+        
+        Spacer()
+        ForEach(entry.items) { item in
+          Text(item.title)
+        }
       }
     }
-  }
-  
   // Function to format the date
   private func formatDate(_ date: Date) -> String {
       let formatter = DateFormatter()
@@ -85,17 +88,19 @@ struct mainWidgetEntryView : View {
 }
 
 struct mainWidget: Widget {
-  let kind: String = "mainWidget"
   
   var body: some WidgetConfiguration {
     AppIntentConfiguration(
-      kind: kind,
+      kind: "mainWidget",
       intent: ConfigurationAppIntent.self,
       provider: Provider()
     ) { entry in
       mainWidgetEntryView(entry: entry)
         .containerBackground(.fill.tertiary, for: .widget)
     }
+    .configurationDisplayName(Text("Today's Activities"))
+    .description(Text("Shows an overview of your day activities."))
+    .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
   }
 }
 
@@ -113,9 +118,18 @@ extension ConfigurationAppIntent {
     }
 }
 
+func generateDemoData() -> [Item] {
+  let task1 = Item(title: "Morning Jog", note: "30 minutes around the park", status: .completed, tag: .personal, date: Date(), priority: .high)
+  let task2 = Item(title: "Read Book", note: "Finish reading 'The Alchemist'", status: .inProgress, tag: .personal, date: Date(), priority: .medium)
+  let task3 = Item(title: "Weekly Planning", note: "Plan out the week's tasks and goals", status: .notStarted, tag: .work, date: Date(), priority: .high)
+  let task4 = Item(title: "Grocery Shopping", note: "Remember to buy milk and eggs", status: .notStarted, tag: .personal, date: Date(), priority: .low)
+  let task5 = Item(title: "Study Session", note: "Focus on Java fundamentals", status: .inProgress, tag: .personal, date: Date(), priority: .medium)
+  
+  return[task1, task2, task3, task4, task5];
+}
+
 #Preview(as: .systemSmall) {
     mainWidget()
 } timeline: {
     SimpleEntry(date: .now, configuration: .smiley, items: [])
-    SimpleEntry(date: .now, configuration: .starEyes, items: [])
 }
