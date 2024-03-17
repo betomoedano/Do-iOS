@@ -68,24 +68,63 @@ struct mainWidgetEntryView : View {
   var entry: Provider.Entry
   
   var body: some View {
-      VStack {
-        Text("Today")
-        Text(formatDate(entry.date))
-        
+    VStack(alignment: .leading) {
+      HStack(alignment: .top) {
+        VStack(alignment: .leading ) {
+          Text("Today")
+            .font(.caption)
+          Text(formattedDateWithoutYear(Date.now))
+            .font(.title2)
+            .bold()
+            .fontDesign(.rounded)
+        }
         Spacer()
-        ForEach(entry.items) { item in
+        Image("Logo")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(height: 40)
+      }
+      ForEach(entry.items) { item in
+        HStack(alignment: .center) {
+          statusCircle(for: item)
           Text(item.title)
+            .font(.caption)
+//          Spacer()
+//          Text("\(item.date.formatted(date: .omitted, time: .shortened))")
+//            .font(.custom("test", fixedSize: 10))
+//            .foregroundStyle(.secondary)
         }
       }
+      Spacer()
     }
-  // Function to format the date
-  private func formatDate(_ date: Date) -> String {
-      let formatter = DateFormatter()
-      // Customize the date format
-      formatter.dateFormat = "HH:mm:ss"
-      return formatter.string(from: date)
+  }
+  
+  func statusCircle(for item: Item) -> some View {
+      Circle()
+        .fill(colorForStatus(item.status))
+        .frame(width: 15)
+  }
+
+  private func colorForStatus(_ status: Status) -> Color {
+      switch status {
+      case .notStarted:
+          return .gray
+      case .inProgress:
+          return .blue
+      case .completed:
+          return .green
+      case .onHold:
+          return .orange
+      }
+  }
+  
+  func formattedDateWithoutYear(_ date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "E d" // "MMM" for the abbreviated month, "d" for the day of the month
+    return dateFormatter.string(from: date)
   }
 }
+
 
 struct mainWidget: Widget {
   
@@ -96,7 +135,7 @@ struct mainWidget: Widget {
       provider: Provider()
     ) { entry in
       mainWidgetEntryView(entry: entry)
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
     .configurationDisplayName(Text("Today's Activities"))
     .description(Text("Shows an overview of your day activities."))
