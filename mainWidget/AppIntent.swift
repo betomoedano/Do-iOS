@@ -13,6 +13,6 @@ struct ConfigurationAppIntent: WidgetConfigurationIntent {
     static var description = IntentDescription("Shows an overview of your day activities.")
 
     // An example configurable parameter.
-    @Parameter(title: "Activities for", default: "Today")
-    var favoriteEmoji: String
+//    @Parameter(title: "Activities for", default: "Today")
+//    var favoriteEmoji: String
 }

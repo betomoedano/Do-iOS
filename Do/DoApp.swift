@@ -7,9 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 @main
 struct DoApp: App {
+  @Environment(\.scenePhase) var scenePhase
+  
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,6 +29,11 @@ struct DoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            .onChange(of: scenePhase) { oldScenePhase, newScenePhase in
+              if newScenePhase == .background {
+                WidgetCenter.shared.reloadAllTimelines()
+              }
+            }
         }
         .modelContainer(sharedModelContainer)
     }

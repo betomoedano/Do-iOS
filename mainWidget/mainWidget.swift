@@ -12,36 +12,30 @@ import SwiftData
 struct Provider: AppIntentTimelineProvider {
   @MainActor
   func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), items: getItems())
+    let items = getItems()
+    return SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), items: items, todayStats: getStats())
   }
 
   @MainActor
   func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-    
-    return SimpleEntry(date: Date(), configuration: configuration, items: generateDemoData())
+    return SimpleEntry(date: Date(), configuration: configuration, items: generateDemoData(), todayStats: getStats())
   }
     
   @MainActor
   func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-    
-    var entries: [SimpleEntry] = []
+    let items = getItems()
     
     // Determine the start and end time for entry generation
     let currentDate = Date()
-    let endTime = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)! // For example, create entries for the next 1 minute
     
-    // Generate entries every 5 seconds within the determined timeframe
-    var nextDate = currentDate
-    while nextDate <= endTime {
-      let entry = SimpleEntry(date: nextDate, configuration: configuration, items: getItems())
-      entries.append(entry)
-      nextDate = Calendar.current.date(byAdding: .second, value: 10, to: nextDate)!
-    }
+    // Create a date that's 5 minutes in the future.
+    let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
     
-    // Set the refresh policy
-    let refreshDate = Calendar.current.date(byAdding: .minute, value: 1, to: Date())!
-    print(refreshDate, "refreshed!")
-    return Timeline(entries: entries, policy: .after(refreshDate))
+    let entry: SimpleEntry = SimpleEntry(date: nextUpdateDate, configuration: configuration, items: items, todayStats: getStats())
+    
+    print("Current Date: ", currentDate, "Next Update: ", nextUpdateDate)
+    
+    return Timeline(entries: [entry], policy: .after(nextUpdateDate))
   }
 
   
@@ -53,18 +47,48 @@ struct Provider: AppIntentTimelineProvider {
     let descriptor = FetchDescriptor<Item>()
     let items = try? modelContainer.mainContext.fetch(descriptor)
     
-    return items ?? []
+    // Filter tasks for today that are not completed
+    let taskForToday = items?.filter { $0.period == .today && $0.status != .completed } ?? []
+
+//    let taskForToday = items?.filter { $0.period == .today } ?? []
+//    let taskForNextSevenDays = items?.filter { $0.period == .nextSevenDays } ?? []
+
+    return taskForToday
+  }
+  
+  @MainActor
+  private func getStats() -> TodayStats {
+    guard let modelContainer = try? ModelContainer(for: Item.self) else {
+      return TodayStats(notStarted: 0, completed: 0, inProgress: 0)
+    }
+    let descriptor = FetchDescriptor<Item>()
+    let items = try? modelContainer.mainContext.fetch(descriptor)
+    
+    // Filter tasks for today that are not completed
+    let notCompleted = items?.filter { $0.period == .today && $0.status == .notStarted }.count ?? 0
+    let completed = items?.filter { $0.period == .today && $0.status == .completed }.count ?? 0
+    let inProgress = items?.filter { $0.period == .today && $0.status == .inProgress }.count ?? 0
+
+    return TodayStats(notStarted: notCompleted, completed: completed, inProgress: inProgress)
   }
 }
+
 
 struct SimpleEntry: TimelineEntry {
   let date: Date
   let configuration: ConfigurationAppIntent
   let items: [Item]
+  let todayStats: TodayStats
+}
+
+struct TodayStats {
+  let notStarted: Int
+  let completed: Int
+  let inProgress: Int
 }
 
 struct mainWidgetEntryView : View {
-  @Query private var items: [Item]
+  @Environment(\.widgetFamily) var widgetFamily
   var entry: Provider.Entry
   
   var body: some View {
@@ -74,31 +98,77 @@ struct mainWidgetEntryView : View {
           Text("Today")
             .font(.caption)
           Text(formattedDateWithoutYear(Date.now))
-            .font(.title2)
+            .font(.title)
+            .minimumScaleFactor(0.8)
             .bold()
             .fontDesign(.rounded)
         }
         Spacer()
-        Image("Logo")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(height: 40)
-      }
-      ForEach(entry.items) { item in
-        HStack(alignment: .center) {
-          statusCircle(for: item)
-          Text(item.title)
-            .font(.caption)
-//          Spacer()
-//          Text("\(item.date.formatted(date: .omitted, time: .shortened))")
-//            .font(.custom("test", fixedSize: 10))
-//            .foregroundStyle(.secondary)
+        //        Image("Logo")
+        //          .resizable()
+        //          .aspectRatio(contentMode: .fit)
+        //          .frame(height: 40)
+        VStack(alignment: .leading, spacing: 0) {
+          statsItem(total: entry.todayStats.completed, color: .green)
+          statsItem(total: entry.todayStats.inProgress, color: .blue)
+          statsItem(total: entry.todayStats.notStarted, color: .gray)
+          statsItem(total: entry.todayStats.notStarted, color: .gray)
         }
       }
-      Spacer()
+      
+      
+      if (entry.items.isEmpty) {
+        VStack {
+          Spacer()
+          HStack {
+            Spacer()
+            if (widgetFamily == .systemSmall) {
+              Text("Tap to add a task!")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            } else {
+              Text("No tasks yet. Tap to add a task!")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+            Spacer()
+          }
+          Spacer()
+        }
+      } else {
+        ForEach(entry.items.prefix(3)) { item in
+          HStack(alignment: .center) {
+            statusCircle(for: item)
+            Text(item.title)
+              .font(.caption)
+              .strikethrough(item.status == .completed, color: .secondary)
+              .lineLimit(1)
+            Spacer()
+            Text("\(item.date.formatted(date: .omitted, time: .shortened))")
+              .font(.custom("test", fixedSize: 10))
+              .foregroundStyle(.secondary)
+          }
+        }
+        Spacer()
+      }
     }
+    .transition(.push(from: .bottom))
   }
   
+  func statsItem(total: Int, color: Color) -> some View {
+    HStack(alignment: .center, spacing: 6) {
+      Circle()
+        .fill(color)
+        .frame(width: 10)
+      Text(total.description)
+        .contentTransition(.numericText(value: Double(total)))
+        .minimumScaleFactor(0.8)
+        .fontDesign(.rounded)
+        .font(.caption2)
+        .bold()
+    }
+  }
+ 
   func statusCircle(for item: Item) -> some View {
       Circle()
         .fill(colorForStatus(item.status))
@@ -146,13 +216,13 @@ struct mainWidget: Widget {
 extension ConfigurationAppIntent {
     fileprivate static var smiley: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
+//        intent.favoriteEmoji = "😀"
         return intent
     }
     
     fileprivate static var starEyes: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
+//        intent.favoriteEmoji = "🤩"
         return intent
     }
 }
@@ -170,5 +240,5 @@ func generateDemoData() -> [Item] {
 #Preview(as: .systemSmall) {
     mainWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley, items: [])
+  SimpleEntry(date: .now, configuration: .smiley, items: [], todayStats: TodayStats(notStarted: 5, completed: 2, inProgress: 1))
 }
