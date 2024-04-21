@@ -112,10 +112,8 @@ struct mainWidgetEntryView : View {
           statsItem(total: entry.todayStats.completed, color: .green)
           statsItem(total: entry.todayStats.inProgress, color: .blue)
           statsItem(total: entry.todayStats.notStarted, color: .gray)
-          statsItem(total: entry.todayStats.notStarted, color: .gray)
         }
       }
-      
       
       if (entry.items.isEmpty) {
         VStack {
