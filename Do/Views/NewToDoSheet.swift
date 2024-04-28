@@ -89,14 +89,16 @@ struct NewToDoSheet: View {
           #if os(iOS)
           ToolbarItem(placement: .navigationBarTrailing) {
             Button("Save") {
-              saveDo(Item(
-                title: title,
-                note: description,
-                status: status,
-                tag: tag,
-                date: date,
-                priority: priority
-              ))
+              Task {
+                await saveDo(Item(
+                  title: title,
+                  note: description,
+                  status: status,
+                  tag: tag,
+                  date: date,
+                  priority: priority
+                ))
+              }
             }
             .disabled(title.isEmpty)
           }
@@ -105,10 +107,33 @@ struct NewToDoSheet: View {
       }
     }
   
-  private func saveDo(_ item: Item) {
+  private func saveDo(_ item: Item) async {
     withAnimation {
       context.insert(item)
       dismiss()
+    }
+    await scheduleNotification(item)
+  }
+  
+  private func scheduleNotification(_ item: Item) async {
+    let content = UNMutableNotificationContent()
+    content.title = item.title
+    content.body = item.note ?? ""
+    // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.hour, .minute, .second], from: item.date)
+    let uuidString = UUID().uuidString
+    
+    // Create trigger
+    let trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents(hour: components.hour, minute: components.minute, second: components.second), repeats: false)
+    
+    // Create request providing the trigger
+    let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+    
+    do {
+      try await UNUserNotificationCenter.current().add(request)
+    } catch {
+      // handle error
     }
   }
 }
