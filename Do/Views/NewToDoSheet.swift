@@ -13,11 +13,12 @@ struct NewToDoSheet: View {
   
   @State private var title: String = ""
   @State private var description: String = ""
-  @State private var date: Date = Date.now
+  @State private var date: Date = Date.now.addingTimeInterval(900) // Add 15 min
   @State private var priority: Priority = .none
   @State private var tag: Tag = .none
   @State private var status: Status = .notStarted
-  
+  @State private var scheduleAlert: Bool = true
+
   @FocusState private var isTitleFieldFocused: Bool
   @FocusState private var isDescriptionFieldFocused: Bool
 //  Local state
@@ -34,6 +35,21 @@ struct NewToDoSheet: View {
                   self.isTitleFieldFocused = true
                 }
               }
+              .onSubmit {
+                if (!title.isEmpty) {
+                  Task {
+                    await saveDo(Item(
+                      title: title,
+                      note: description,
+                      status: status,
+                      tag: tag,
+                      date: date,
+                      priority: priority
+                    ))
+                  }
+                }
+              }
+              .submitLabel(.done)
               .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                   if isTitleFieldFocused {
@@ -60,6 +76,10 @@ struct NewToDoSheet: View {
           
           DatePicker("Date", selection: $date)
             .listRowSeparator(.hidden)
+          
+          Toggle(isOn: $scheduleAlert) {
+            Text("Alert")
+          }
           
           Picker(selection: $priority, label: Text("Priority")) {
             ForEach(Priority.allCases, id: \.self) { priority in
@@ -112,7 +132,9 @@ struct NewToDoSheet: View {
       context.insert(item)
       dismiss()
     }
-    await scheduleNotification(item)
+    if scheduleAlert {
+      await scheduleNotification(item)
+    }
   }
   
   private func scheduleNotification(_ item: Item) async {

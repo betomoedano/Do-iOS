@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import TipKit
 
 struct ContentView: View {
   
@@ -17,47 +17,52 @@ struct ContentView: View {
     NavigationSplitView {
       ItemListView(sort: sortOrder, order: sortOrder == SortDescriptor(\Item.date) ? "DESC" : "ASC")
         .toolbar {
-          ToolbarItemGroup {
+            ToolbarItemGroup {
               Menu {
-                  Button {
-                      withAnimation {
-                          sortOrder = SortDescriptor(\Item.timestamp)
-                      }
-                  } label: {
-                      Label("Creation date", systemImage: "calendar")
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.timestamp)
                   }
-                  Button {
-                      withAnimation {
-                          sortOrder = SortDescriptor(\Item.date)
-                      }
-                  } label: {
-                      Label("Due date", systemImage: "calendar.badge.clock")
+                } label: {
+                  Label("Creation date", systemImage: "calendar")
+                }
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.date)
                   }
-                  Button {
-                      withAnimation {
-                          sortOrder = SortDescriptor(\Item.title)
-                      }
-                  } label: {
-                      Label("Alphabetically", systemImage: "textformat.abc")
+                } label: {
+                  Label("Due date", systemImage: "calendar.badge.clock")
+                }
+                Button {
+                  withAnimation {
+                    sortOrder = SortDescriptor(\Item.title)
                   }
+                } label: {
+                  Label("Alphabetically", systemImage: "textformat.abc")
+                }
               } label: {
                 Label("Sort", systemImage: "arrow.up.arrow.down")
               }
-            Button {
-              showNewToDoSheet.toggle()
-            } label:{
-              Label("Add Item", systemImage: "plus")
+              Button {
+                showNewToDoSheet.toggle()
+//                addToDoTip.invalidate(reason: .actionPerformed)
+              } label:{
+                Label("Add Item", systemImage: "plus")
+              }
+              
             }
           }
-        }
-//        .navigationTitle("Do")
+//        .popoverTip(addToDoTip, arrowEdge: .bottom, action: {_ in
+//          print("hello")
+//        })
     } detail: {
       Text("Select an item")
       Button {
         showNewToDoSheet.toggle()
       }label: {
         Label("Add Item", systemImage: "plus")
-      }    }
+      }
+    }
     .sheet(isPresented: $showNewToDoSheet) {
       NewToDoSheet()
     }

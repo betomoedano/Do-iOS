@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import TipKit
 
 @main
 struct DoApp: App {
@@ -44,6 +45,13 @@ struct DoApp: App {
           if newScenePhase == .background {
             WidgetCenter.shared.reloadAllTimelines()
           }
+        }
+        .task {
+          try? Tips.resetDatastore()
+          try? Tips.configure([
+            .displayFrequency(.immediate),
+            .datastoreLocation(.applicationDefault)
+            ])
         }
     }
     .modelContainer(sharedModelContainer)
