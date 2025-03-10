@@ -17,11 +17,17 @@ struct DoApp: App {
   var sharedModelContainer: ModelContainer = {
     let schema = Schema([
       Item.self,
+      ListOfItems.self
     ])
     let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
     
     do {
-      return try ModelContainer(for: schema, configurations: [modelConfiguration])
+      let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+      #if DEBUG
+      // Initialize development data in debug mode
+      PreviewData.createDevData(modelContext: container.mainContext)
+      #endif
+      return container
     } catch {
       fatalError("Could not create ModelContainer: \(error)")
     }

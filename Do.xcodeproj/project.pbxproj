@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA4134E12D7E9B67008C90D9 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4134E02D7E9B67008C90D9 /* PreviewData.swift */; };
+		CA4134E22D7E9B67008C90D9 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4134E02D7E9B67008C90D9 /* PreviewData.swift */; };
 		CA57FC682BE844B9006195AA /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA57FC672BE844B9006195AA /* Tips.swift */; };
 		CA72B4DC2B3B9D6F0021BA4E /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4DB2B3B9D6F0021BA4E /* ItemList.swift */; };
 		CA72B4DE2B3CF7980021BA4E /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4DD2B3CF7980021BA4E /* ItemRow.swift */; };
@@ -62,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA4134E02D7E9B67008C90D9 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		CA57FC672BE844B9006195AA /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		CA72B4C42B3B83100021BA4E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		CA72B4DB2B3B9D6F0021BA4E /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 				CACD988D2B37BA3400374036 /* Item.swift */,
 				CA72B4DB2B3B9D6F0021BA4E /* ItemList.swift */,
 				CA57FC672BE844B9006195AA /* Tips.swift */,
+				CA4134E02D7E9B67008C90D9 /* PreviewData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -328,6 +332,7 @@
 				CACD988C2B37BA3400374036 /* ContentView.swift in Sources */,
 				CA57FC682BE844B9006195AA /* Tips.swift in Sources */,
 				CACD988E2B37BA3400374036 /* Item.swift in Sources */,
+				CA4134E22D7E9B67008C90D9 /* PreviewData.swift in Sources */,
 				CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */,
 				CA72B4DC2B3B9D6F0021BA4E /* ItemList.swift in Sources */,
 				CA72B4EF2B465ABC0021BA4E /* ItemListView.swift in Sources */,
@@ -346,6 +351,7 @@
 				CACF59ED2BA4F2E8005A3272 /* ItemList.swift in Sources */,
 				CACF59DB2BA4E3E4005A3272 /* mainWidget.swift in Sources */,
 				CA8699892BA66D2E00CF8F88 /* ItemRow.swift in Sources */,
+				CA4134E12D7E9B67008C90D9 /* PreviewData.swift in Sources */,
 				CACF59D92BA4E3E4005A3272 /* mainWidgetBundle.swift in Sources */,
 				CACF59DD2BA4E3E4005A3272 /* AppIntent.swift in Sources */,
 			);
