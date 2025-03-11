@@ -15,6 +15,7 @@
 		CA72B4E42B3DF8960021BA4E /* AppIconDark.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4E32B3DF8960021BA4E /* AppIconDark.png */; };
 		CA72B4E62B3DF8B70021BA4E /* AppIconLight.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72B4E52B3DF8B70021BA4E /* AppIconLight.png */; };
 		CA72B4EF2B465ABC0021BA4E /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4EE2B465ABC0021BA4E /* ItemListView.swift */; };
+		CA846D512D7FC26000376074 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA846D502D7FC26000376074 /* SplashScreenView.swift */; };
 		CA8699872BA6126D00CF8F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CACF59CD2BA4CA33005A3272 /* Logo.png */; };
 		CA8699882BA6127400CF8F88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CACD988F2B37BA3600374036 /* Assets.xcassets */; };
 		CA8699892BA66D2E00CF8F88 /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA72B4DD2B3CF7980021BA4E /* ItemRow.swift */; };
@@ -26,7 +27,6 @@
 		CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989B2B37E7EB00374036 /* ItemView.swift */; };
 		CACD98A02B3A218800374036 /* NewToDoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD989F2B3A218800374036 /* NewToDoSheet.swift */; };
 		CACD98A22B3A5FC300374036 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACD98A12B3A5FC300374036 /* HomeView.swift */; };
-		CACF59C62BA4C873005A3272 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACF59C52BA4C873005A3272 /* Launch Screen.storyboard */; };
 		CACF59CE2BA4CA33005A3272 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CACF59CD2BA4CA33005A3272 /* Logo.png */; };
 		CACF59D52BA4E3E4005A3272 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACF59D42BA4E3E4005A3272 /* WidgetKit.framework */; };
 		CACF59D62BA4E3E4005A3272 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA72B4C42B3B83100021BA4E /* SwiftUI.framework */; };
@@ -72,6 +72,7 @@
 		CA72B4E32B3DF8960021BA4E /* AppIconDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconDark.png; sourceTree = "<group>"; };
 		CA72B4E52B3DF8B70021BA4E /* AppIconLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconLight.png; sourceTree = "<group>"; };
 		CA72B4EE2B465ABC0021BA4E /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
+		CA846D502D7FC26000376074 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		CACD98862B37BA3400374036 /* Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Do.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACD98892B37BA3400374036 /* DoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoApp.swift; sourceTree = "<group>"; };
 		CACD988B2B37BA3400374036 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -83,7 +84,6 @@
 		CACD989B2B37E7EB00374036 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		CACD989F2B3A218800374036 /* NewToDoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoSheet.swift; sourceTree = "<group>"; };
 		CACD98A12B3A5FC300374036 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		CACF59C52BA4C873005A3272 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CACF59CD2BA4CA33005A3272 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		CACF59D32BA4E3E4005A3272 /* mainWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = mainWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACF59D42BA4E3E4005A3272 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -144,6 +144,7 @@
 				CA72B4DD2B3CF7980021BA4E /* ItemRow.swift */,
 				CACD989F2B3A218800374036 /* NewToDoSheet.swift */,
 				CA72B4EE2B465ABC0021BA4E /* ItemListView.swift */,
+				CA846D502D7FC26000376074 /* SplashScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -194,7 +195,6 @@
 				CA72B4D92B3B9CEC0021BA4E /* Models */,
 				CA72B4DA2B3B9D0B0021BA4E /* Views */,
 				CACD988F2B37BA3600374036 /* Assets.xcassets */,
-				CACF59C52BA4C873005A3272 /* Launch Screen.storyboard */,
 				CACD98912B37BA3600374036 /* Do.entitlements */,
 				CACD98952B37BA3600374036 /* Info.plist */,
 				CACD98922B37BA3600374036 /* Preview Content */,
@@ -307,7 +307,6 @@
 				CA72B4E42B3DF8960021BA4E /* AppIconDark.png in Resources */,
 				CA72B4E62B3DF8B70021BA4E /* AppIconLight.png in Resources */,
 				CACD98942B37BA3600374036 /* Preview Assets.xcassets in Resources */,
-				CACF59C62BA4C873005A3272 /* Launch Screen.storyboard in Resources */,
 				CACD98902B37BA3600374036 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +339,7 @@
 				CACD988A2B37BA3400374036 /* DoApp.swift in Sources */,
 				CACD989C2B37E7EB00374036 /* ItemView.swift in Sources */,
 				CA72B4DE2B3CF7980021BA4E /* ItemRow.swift in Sources */,
+				CA846D512D7FC26000376074 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.codewithbeto.do.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -566,7 +566,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.codewithbeto.do.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

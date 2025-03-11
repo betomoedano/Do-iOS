@@ -48,9 +48,9 @@ struct Provider: AppIntentTimelineProvider {
     let items = try? modelContainer.mainContext.fetch(descriptor)
     
     // Filter tasks for today that are not completed
-    let taskForToday = items?.filter { $0.period == .today && $0.status != .completed } ?? []
+//    let taskForToday = items?.filter { $0.period == .today && $0.status != .completed } ?? []
 
-//    let taskForToday = items?.filter { $0.period == .today } ?? []
+    let taskForToday = items?.filter { $0.period == .today } ?? []
 //    let taskForNextSevenDays = items?.filter { $0.period == .nextSevenDays } ?? []
 
     return taskForToday
