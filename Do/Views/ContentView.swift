@@ -12,13 +12,21 @@ struct ContentView: View {
   
   @State private var sortOrder = SortDescriptor(\Item.date)
   @State private var showNewToDoSheet: Bool = false
+  @State private var isSingleList: Bool = false
   
   var body: some View {
     NavigationSplitView {
-      ItemListView(sort: sortOrder, order: sortOrder == SortDescriptor(\Item.date) ? "DESC" : "ASC")
+      ItemListView(sort: sortOrder, order: sortOrder == SortDescriptor(\Item.date) ? "DESC" : "ASC", isSingleList: isSingleList)
         .toolbar {
             ToolbarItemGroup {
               Menu {
+                Button {
+                  withAnimation {
+                    isSingleList.toggle()
+                  }
+                } label: {
+                  Label(isSingleList ? "Grouped by Period" : "Single list", systemImage: isSingleList ? "tray.full" : "list.bullet")
+                }
                 Button {
                   withAnimation {
                     sortOrder = SortDescriptor(\Item.timestamp)

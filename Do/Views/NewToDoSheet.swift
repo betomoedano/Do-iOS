@@ -130,6 +130,7 @@ struct NewToDoSheet: View {
   private func saveDo(_ item: Item) async {
     withAnimation {
       context.insert(item)
+      print("Inserted item: \(item)")
       dismiss()
     }
     if scheduleAlert {

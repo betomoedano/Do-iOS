@@ -23,10 +23,6 @@ struct DoApp: App {
     
     do {
       let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-      #if DEBUG
-      // Initialize development data in debug mode
-      PreviewData.createDevData(modelContext: container.mainContext)
-      #endif
       return container
     } catch {
       fatalError("Could not create ModelContainer: \(error)")
@@ -50,6 +46,7 @@ struct DoApp: App {
         .onChange(of: scenePhase) { oldScenePhase, newScenePhase in
           if newScenePhase == .background {
             WidgetCenter.shared.reloadAllTimelines()
+            print("Reloaded all timelines.")
           }
         }
         .task {

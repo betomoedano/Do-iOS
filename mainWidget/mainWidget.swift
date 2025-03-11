@@ -238,5 +238,9 @@ func generateDemoData() -> [Item] {
 #Preview(as: .systemSmall) {
     mainWidget()
 } timeline: {
-  SimpleEntry(date: .now, configuration: .smiley, items: [], todayStats: TodayStats(notStarted: 5, completed: 2, inProgress: 1))
+  SimpleEntry(date: .now,
+              configuration: .smiley,
+//              items: generateDemoData(),
+              items: [],
+              todayStats: TodayStats(notStarted: 5, completed: 2, inProgress: 1))
 }
